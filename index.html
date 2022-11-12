@@ -17,16 +17,20 @@
       <h1 id="title">❌⭕ Tic Tac Toe</h1>
     </header>
     <main>
+      <div id="player-sign">
+        <button class="player-sign-btn current-player-sign">X</button>
+        <button class="player-sign-btn">O</button>
+      </div>
       <div id="game-board">
-        <button id="btn0" class="field"></button>
-        <button id="btn1" class="field"></button>
-        <button id="btn2" class="field no-r-border">O</button>
-        <button id="btn3" class="field">X</button>
-        <button id="btn4" class="field">O</button>
-        <button id="btn5" class="field no-r-border">X</button>
-        <button id="btn6" class="field no-b-border">O</button>
-        <button id="btn7" class="field no-b-border">X</button>
-        <button id="btn8" class="field no-r-border no-b-border">X</button>
+        <button id="btn0" data-index="0" class="field"></button>
+        <button id="btn1" data-index="1" class="field"></button>
+        <button id="btn2" data-index="2" class="field no-r-border">O</button>
+        <button id="btn3" data-index="3" class="field">X</button>
+        <button id="btn4" data-index="4" class="field">O</button>
+        <button id="btn5" data-index="5" class="field no-r-border">X</button>
+        <button id="btn6" data-index="6" class="field no-b-border">O</button>
+        <button id="btn7" data-index="7" class="field no-b-border">X</button>
+        <button id="btn8" data-index="8" class="field no-r-border no-b-border">X</button>
       </div>
     </main>
     <footer>
@@ -41,5 +45,14 @@
         <i class="fab fa-github"></i
       ></a>
     </footer>
-      <script src="script.js"></script>
+    <!-- The Modal -->
+    <div id="finished-game-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="finished-game-modal-text">This is a test.</p>
+        <button id="new-game-btn">New Game</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
 </html>
