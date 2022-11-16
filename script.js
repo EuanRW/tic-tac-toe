@@ -1,6 +1,19 @@
 //#region Player logic.
 const player = (_sign) => {
-  return { _sign };
+
+  getSign = () => {
+    return _sign
+  }
+
+  swapSign = () => {
+    _sign = (_sign == 'X') ? 'O' : 'X'
+  }
+
+  setSign = (newSign) => {
+    _sign = newSign
+  }
+
+  return { getSign, swapSign, setSign};
 };
 //#endregion
 
@@ -18,7 +31,11 @@ const gameBoard = (() => {
 
   const resetBoard = () => _board.fill(null);
 
-  return { getField, setField, resetBoard };
+  const checkAllAreNotNull = () => {
+    return _board.every(el => el !== null);
+  }
+
+  return { getField, setField, resetBoard, checkAllAreNotNull };
 })();
 //#endregion
 
@@ -27,9 +44,10 @@ const displayController = (() => {
   //UI Elements.
   const boardFields = document.querySelectorAll(".field");
   const finishedGameModal = document.getElementById("finished-game-modal");
-  const closeModalSpan = document.getElementsByClassName("close")[0];
   const finishedGameModalText = document.getElementById("finished-game-modal-text");
   const newGameBtn = document.getElementById("new-game-btn")
+  const xBtn = document.getElementById("x-btn")
+  const oBtn = document.getElementById("o-btn")
 
   boardFields.forEach((field) =>
     field.addEventListener("click", (e) => {
@@ -48,12 +66,28 @@ const displayController = (() => {
     }
   };
 
+  xBtn.onclick = () => {
+    if (gameController.currentPlayer.getSign() == 'O') {
+      gameController.swapPlayerSigns()
+      updateBoard()
+    }
+
+    xBtn.classList.add("current-player-sign")
+    oBtn.classList.remove("current-player-sign")
+  }
+
+  oBtn.onclick = () => {
+    if (gameController.currentPlayer.getSign() == 'X') {
+      gameController.swapPlayerSigns()
+      updateBoard()
+    }
+
+    xBtn.classList.remove("current-player-sign")
+    oBtn.classList.add("current-player-sign")
+  }
+
   // Modal Logic.
   // When the user clicks on close span, close the modal
-  closeModalSpan.onclick = function () {
-    finishedGameModal.style.display = "none";
-  };
-
   newGameBtn.onclick = function () {
     gameBoard.resetBoard()
     finishedGameModal.style.display = "none";
@@ -73,8 +107,8 @@ const displayController = (() => {
     finishedGameModal.style.display = "block";
   }
 
-  const updateFinishedGameModalText = (player) => {
-    finishedGameModalText.innerText = `${player} wins!`
+  const updateFinishedGameModalText = (text) => {
+    finishedGameModalText.innerText = text
   }
 
   updateBoard();
@@ -88,20 +122,25 @@ const gameController = (() => {
   const computerPlayer = player("O");
   let currentPlayer = humanPlayer;
 
-  const getCurrentPlayerSign = () => {
-    return currentPlayer._sign;
-  };
-
   const nextGo = (fieldIndex) => {
-    gameBoard.setField(fieldIndex, currentPlayer._sign);
+    gameBoard.setField(fieldIndex, currentPlayer.getSign());
     if (checkWinner(fieldIndex)) {
-      displayController.updateFinishedGameModalText(currentPlayer._sign)
+      displayController.updateFinishedGameModalText(currentPlayer.getSign() + ' Wins!')
+      displayController.displayFinishedGameModal()
+    } else if (checkDraw()) {
+      displayController.updateFinishedGameModalText('Draw!')
       displayController.displayFinishedGameModal()
     } else {
       currentPlayer =
         currentPlayer == humanPlayer ? computerPlayer : humanPlayer;
     }
   };
+
+  const swapPlayerSigns = () => {
+    humanPlayer.swapSign()
+    computerPlayer.swapSign()
+    gameBoard.resetBoard()
+  }
 
   const checkWinner = (fieldIndex) => {
     const winConditions = [
@@ -119,12 +158,16 @@ const gameController = (() => {
       .filter((combination) => combination.includes(fieldIndex))
       .some((possibleCombination) =>
         possibleCombination.every(
-          (index) => gameBoard.getField(index) === getCurrentPlayerSign()
+          (index) => gameBoard.getField(index) === currentPlayer.getSign()
         )
       );
   };
 
-  return { nextGo };
+  const checkDraw = () => {
+    return gameBoard.checkAllAreNotNull()
+  }
+
+  return { nextGo, swapPlayerSigns, currentPlayer };
 })();
 //#endregion
 

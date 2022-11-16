@@ -18,8 +18,8 @@
     </header>
     <main>
       <div id="player-sign">
-        <button class="player-sign-btn current-player-sign">X</button>
-        <button class="player-sign-btn">O</button>
+        <button id="x-btn" class="player-sign-btn current-player-sign">X</button>
+        <button id="o-btn" class="player-sign-btn">O</button>
       </div>
       <div id="game-board">
         <button id="btn0" data-index="0" class="field"></button>
@@ -49,7 +49,6 @@
     <div id="finished-game-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
         <p id="finished-game-modal-text">This is a test.</p>
         <button id="new-game-btn">New Game</button>
       </div>
