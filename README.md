@@ -3,9 +3,9 @@
 A Tic Tac Toe game you can play in your browser.
 
 ## Objectives
-- Utilise factory functions and module pattern.
-- Create a multi-page app.
-- Develop an AI oponent utilising the Minimax algorithm.
+- [X] Utilise factory functions and module pattern.
+- [ ] Create a multi-page app.
+- [ ] Develop an AI oponent utilising the Minimax algorithm.
 
 ## Project Status
 Complete
